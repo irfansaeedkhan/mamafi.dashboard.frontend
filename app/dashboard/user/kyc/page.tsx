@@ -141,7 +141,7 @@ const KYC = () => {
 
       if (res.status === 'approved') {
         setModelContent({
-          title: 'contact contact@mamafi.io to get a new agreement to sign',
+          title: `contact ${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'irfansaeedkhan@protonmail.com'} to get a new agreement to sign`,
           description:
             'Before you transfer your funds please provide in the email: Full Name, email address you use on the platform, and amount of Sigillum you wish to purchase.',
           buttonText: 'GOT IT',
@@ -205,8 +205,8 @@ const KYC = () => {
                     Fill the KYC form to Purchase
                   </h4>
                   <p className="text-sm text-white/50">
-                    Please return the original documents to aethernum FZC with electronic copies by
-                    email to contact@mamafi.io.
+                    Please return the original documents with electronic copies by email to{' '}
+                    {process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'irfansaeedkhan@protonmail.com'}.
                   </p>
                 </div>
                 {/* Identity informations  */}

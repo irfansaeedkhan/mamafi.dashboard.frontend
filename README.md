@@ -52,12 +52,14 @@ Committed public demo values live in `.env.development`. Secret `.env` files are
 | --- | --- |
 | `NEXT_PUBLIC_LANDING_URL` | Landing site (`https://mamafi.vercel.app`) |
 | `NEXT_PUBLIC_BASE_URL` | Dashboard app URL used for referral links (`https://mamafi-app.vercel.app`) |
-| `NEXT_PUBLIC_API_HOST` | Real backend host (not used while mock mode is on) |
-| `NEXT_PUBLIC_BLOCKCHAIN_HOST` | Real blockchain host (not used in mock mode) |
+| `NEXT_PUBLIC_API_HOST` | Mock API base (`/api/mock`) |
+| `NEXT_PUBLIC_BLOCKCHAIN_HOST` | Mock blockchain API base (`/api/mock`) |
+| `INTERNAL_API_HOST` | Mock API host reference |
+| `INTERNAL_API_BASE_URL` | Absolute mock API URL for server helpers |
 | `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable test key for card checkout UI |
-| `INTERNAL_API_HOST` | Internal host reference |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Support contact shown in KYC / forms |
 
-Axios currently points at `/api/mock`. To use a real backend later, change `constants/base-urls.ts`.
+Axios uses `/api/mock` via `constants/base-urls.ts`. All demo traffic stays on the local Next mock layer.
 
 ## Folder structure
 
