@@ -1,0 +1,15 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="info-icon-grad" x1="0" y1="12" x2="24" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF294F"/>
+      <stop offset="100%" stop-color="#1C83FF"/>
+    </linearGradient>
+  </defs>
+  <path
+    stroke="url(#info-icon-grad)"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+  />
+</svg>
