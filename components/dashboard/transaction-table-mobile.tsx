@@ -139,7 +139,7 @@ export const TransactionTableMobile: React.FC<Props> = ({
                       )}
 
                       <span className="text-sm text-xxs font-medium text-white/50">
-                        (~ US$ {changed_eth_price ?? 'N/A'})
+                        (~ US$ {Number(changed_eth_price).toFixed(2)})
                       </span>
                     </div>
                   </div>

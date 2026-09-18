@@ -13,6 +13,7 @@ This repo is wired to a **local mock API** so the app is demo-ready without a li
 - Axios
 - ApexCharts
 - Yarn 1.22
+- Node.js 20, 22, or 24
 
 ## Scripts
 

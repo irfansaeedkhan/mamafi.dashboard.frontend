@@ -4,7 +4,7 @@
   "private": true,
   "description": "Mamafi member dashboard for tracking meta-assets, rewards, affiliates, invoices, and admin operations.",
   "engines": {
-    "node": ">=20"
+    "node": ">=20 <25"
   },
   "scripts": {
     "dev": "next dev --webpack",

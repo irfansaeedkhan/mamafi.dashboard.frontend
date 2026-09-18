@@ -16,7 +16,7 @@ interface Props {
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const TransactionTable: React.FC<Props> = ({ transactionDetailList, page, setPage }) => {
+export const TransactionTable: React.FC<Props> = ({ transactionDetailList }) => {
   if (!transactionDetailList) {
     return <div className="w-full p-20 text-center text-white">No record found</div>;
   }
@@ -78,16 +78,16 @@ export const TransactionTable: React.FC<Props> = ({ transactionDetailList, page,
             {row.changed_eth_price_percentage >= 0 ? (
               <span className="flex items-center gap-1 text-sm text-xxs font-medium text-brand-mint">
                 <CarretUpIcon className="size-4 fill-brand-mint stroke-brand-mint" />
-                {row.changed_eth_price_percentage.toFixed(2)}%
+                {Number(row.changed_eth_price_percentage).toFixed(2)}%
               </span>
             ) : (
               <span className="flex items-center gap-1 text-sm text-xxs font-medium text-brand-red">
                 <CarretDownIcon className="size-4 fill-brand-red stroke-brand-red" />
-                {row.changed_eth_price_percentage}%
+                {Number(row.changed_eth_price_percentage).toFixed(2)}%
               </span>
             )}
             <span className="text-sm text-xxs font-medium text-white/50">
-              (~ US$ {row.changed_eth_price})
+              (~ US$ {Number(row.changed_eth_price).toFixed(2)})
             </span>
           </div>
         </div>
@@ -99,10 +99,12 @@ export const TransactionTable: React.FC<Props> = ({ transactionDetailList, page,
       accessor: 'from',
       renderCell: row => (
         <>
-          <span>{row.type === 'DEPOSIT' ? 'From:' : 'To:'}</span>
+          <span>{row.type === 'DEPOSIT' || row.type === 'deposit' ? 'From:' : 'To:'}</span>
           <br />
           <span>
-            {row.type === 'DEPOSIT' ? sliceAccountAddress(row.from) : sliceAccountAddress(row.to)}
+            {row.type === 'DEPOSIT' || row.type === 'deposit'
+              ? sliceAccountAddress(row.from)
+              : sliceAccountAddress(row.to)}
           </span>
         </>
       ),
@@ -111,7 +113,7 @@ export const TransactionTable: React.FC<Props> = ({ transactionDetailList, page,
       key: 'hash',
       header: 'Hash',
       accessor: 'hash',
-      renderCell: row => (row.hash ? sliceAccountAddress(row.hash) : 'N/A'), // Apply sliceAccountAddress
+      renderCell: row => (row.hash ? sliceAccountAddress(row.hash) : 'N/A'),
     },
     {
       key: 'status',
@@ -135,11 +137,6 @@ export const TransactionTable: React.FC<Props> = ({ transactionDetailList, page,
         footerBg="bg-dark"
         hoverBg="hover:bg-[#0b13147d]"
         wrapperClassName="box-3d"
-        externalPagination={{
-          currentPage: page,
-          totalPages: Math.max(1, Math.ceil((transactionDetailList?.length || 0) / TABLE_PAGE_SIZE)),
-          onPageChange: setPage,
-        }}
       />
     </div>
   );

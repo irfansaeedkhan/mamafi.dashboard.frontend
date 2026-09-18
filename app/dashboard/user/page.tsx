@@ -1,8 +1,9 @@
 'use client';
 import { TransactionTable } from '@/components/dashboard';
+import DashboardCards from '@/components/dashboard/dashboard-cards';
 import { DashboardPageSkeleton } from '@/components/dashboard/page-skeleton';
 import dynamic from 'next/dynamic';
-import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { CardTransactionTable } from '@/components/dashboard/card-transaction-table';
 import { CardTransactionTableMobile } from '@/components/dashboard/card-transaction-table-mobile';
@@ -29,7 +30,6 @@ import {
 import { getProfile } from '@/lib/auth/get-profile';
 import { GetRewardListItemResponse, getShowRewardListDetails } from '@/lib/auth/get-rewards-list';
 
-const DashboardLazyCards = lazy(() => import('../../../components/dashboard/dashboard-cards'));
 const RevenueGraph = dynamic(() => import('@/components/dashboard/graph'), {
   ssr: false,
   loading: () => (
@@ -142,26 +142,41 @@ const UserDashboard = () => {
     }
   }, []);
 
-  // Load all data on mount
+  // Load all data on mount — never leave the skeleton up if a request hangs.
   useEffect(() => {
+    let cancelled = false;
+    const safetyTimer = window.setTimeout(() => {
+      if (!cancelled) setLoading(false);
+    }, 8_000);
+
     const fetchAllData = async () => {
       setLoading(true);
       try {
         const results = await Promise.allSettled([
-          getProfile().then(res => setProfileData(res)),
-          getAvailableBalance().then(res => setAvailableBalance(res)),
-          getSigillumDetails().then(res => setSigillumDetails(res)),
-          getBuySigillumDetail().then(res => setBuySigillumDetail(res)),
+          getProfile().then(res => {
+            if (!cancelled) setProfileData(res);
+          }),
+          getAvailableBalance().then(res => {
+            if (!cancelled) setAvailableBalance(res);
+          }),
+          getSigillumDetails().then(res => {
+            if (!cancelled) setSigillumDetails(res);
+          }),
+          getBuySigillumDetail().then(res => {
+            if (!cancelled) setBuySigillumDetail(res);
+          }),
           getTransactionDetail().then(res => {
+            if (cancelled) return;
             setTransactionDetailList(res);
             setTotalPages(getPageCount(res?.length ?? 0, TABLE_PAGE_SIZE));
           }),
           getCardTransactionDetail().then(res => {
+            if (cancelled || !res) return;
             setCardTransactionDetailList(res);
-            if (!res) return;
             setTotalPages(current => Math.max(current, getPageCount(res.length, TABLE_PAGE_SIZE)));
           }),
           getShowRewardListDetails().then(res => {
+            if (cancelled) return;
             setRewardList(res);
             setRewardListTotalPages(getPageCount(res?.length ?? 0, TABLE_PAGE_SIZE));
           }),
@@ -175,11 +190,16 @@ const UserDashboard = () => {
       } catch (error) {
         console.error('Unexpected error:', error);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
+        window.clearTimeout(safetyTimer);
       }
     };
 
     fetchAllData();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(safetyTimer);
+    };
   }, []);
 
   // Function to refresh data after successful purchase
@@ -218,36 +238,24 @@ const UserDashboard = () => {
     initializeTutorial({ isFirstLogin: profileData.IsFirstLogin });
   }, [profileData?.IsFirstLogin, initializeTutorial]);
 
-  // Prevent scroll-jank while dashboard data/skeleton is loading.
-  useEffect(() => {
-    if (!loading) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [loading]);
-
   if (loading) {
     return <DashboardPageSkeleton />;
   }
 
   return (
     <div className="z-10 flex flex-col gap-5">
-      <Suspense fallback={<DashboardPageSkeleton />}>
-        <DashboardLazyCards
-          availableBalance={availableBalance}
-          SigillumDetails={SigillumDetails}
-          buySigillumDetail={buySigillumDetail}
-          rewardListData={rewardList}
-          handleRewardLlistNextPage={handleRewardLlistNextPage}
-          handleRewardlistPrevPage={handleRewardlistPrevPage}
-          rewardListpage={rewardListpage}
-          setSuccessPurchase={setSuccessPurchase}
-          onRefreshCardsData={refreshCardsData}
-          isDemo={profileData?.IsDemo ?? false}
-        />
-      </Suspense>
+      <DashboardCards
+        availableBalance={availableBalance}
+        SigillumDetails={SigillumDetails}
+        buySigillumDetail={buySigillumDetail}
+        rewardListData={rewardList}
+        handleRewardLlistNextPage={handleRewardLlistNextPage}
+        handleRewardlistPrevPage={handleRewardlistPrevPage}
+        rewardListpage={rewardListpage}
+        setSuccessPurchase={setSuccessPurchase}
+        onRefreshCardsData={refreshCardsData}
+        isDemo={profileData?.IsDemo ?? false}
+      />
 
       <RevenueGraph />
 

@@ -1,6 +1,6 @@
 import { axiosAPI } from '@/utils/axios';
 import { customLog } from '@/utils/custom-log';
-import { getAuthTokens, setAuthTokens } from './auth-tokens-storage';
+import { getAuthTokens, setAuthTokens } from './client-auth-tokens';
 import { AuthTokens } from './types';
 
 export const refreshTokens = async (): Promise<AuthTokens | null> => {

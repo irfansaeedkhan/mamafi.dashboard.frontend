@@ -12,7 +12,7 @@ interface Props {
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const CardTransactionTable: React.FC<Props> = ({ cardTransactionDetailList, page, setPage }) => {
+export const CardTransactionTable: React.FC<Props> = ({ cardTransactionDetailList }) => {
   if (!cardTransactionDetailList) {
     return <div className="w-full p-20 text-center text-white">No record found</div>;
   }
@@ -66,14 +66,6 @@ export const CardTransactionTable: React.FC<Props> = ({ cardTransactionDetailLis
         footerBg="bg-dark"
         hoverBg="hover:bg-[#0b13147d]"
         wrapperClassName="box-3d"
-        externalPagination={{
-          currentPage: page,
-          totalPages: Math.max(
-            1,
-            Math.ceil((cardTransactionDetailList?.length || 0) / TABLE_PAGE_SIZE)
-          ),
-          onPageChange: setPage,
-        }}
       />
     </div>
   );

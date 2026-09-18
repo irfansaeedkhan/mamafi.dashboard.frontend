@@ -4,13 +4,16 @@ import {
   registerAuthTokenRequestInterceptor,
   registerAuthTokenResponseInterceptor,
 } from './auth-tokens-interceptors';
-import { registerGetCache } from './get-cache';
+
+const REQUEST_TIMEOUT_MS = 12_000;
 
 export const axiosAPI = axios.create({
   baseURL: APIBaseURL,
+  timeout: REQUEST_TIMEOUT_MS,
 });
 export const axiosAPIBlockchain = axios.create({
   baseURL: APIBaseURLBlockchain,
+  timeout: REQUEST_TIMEOUT_MS,
 });
 
 registerAuthTokenRequestInterceptor(axiosAPI);
@@ -18,6 +21,3 @@ registerAuthTokenRequestInterceptor(axiosAPIBlockchain);
 
 registerAuthTokenResponseInterceptor(axiosAPI);
 registerAuthTokenResponseInterceptor(axiosAPIBlockchain);
-
-registerGetCache(axiosAPI);
-registerGetCache(axiosAPIBlockchain);
