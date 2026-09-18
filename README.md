@@ -4,6 +4,13 @@ Invitation-only member dashboard for the Mamafi meme-coin club. Members can revi
 
 This repo is wired to a **local mock API** so the app is demo-ready without a live backend.
 
+## Deployed URLs
+
+| Surface | URL |
+| --- | --- |
+| Landing | https://mamafi.vercel.app/ |
+| Dashboard (this app) | https://mamafi-app.vercel.app/ |
+
 ## Tech stack
 
 - Next.js 16 App Router
@@ -43,8 +50,9 @@ Committed public demo values live in `.env.development`. Secret `.env` files are
 
 | Variable | Purpose |
 | --- | --- |
+| `NEXT_PUBLIC_LANDING_URL` | Landing site (`https://mamafi.vercel.app`) |
+| `NEXT_PUBLIC_BASE_URL` | Dashboard app URL used for referral links (`https://mamafi-app.vercel.app`) |
 | `NEXT_PUBLIC_API_HOST` | Real backend host (not used while mock mode is on) |
-| `NEXT_PUBLIC_BASE_URL` | App/base URL metadata |
 | `NEXT_PUBLIC_BLOCKCHAIN_HOST` | Real blockchain host (not used in mock mode) |
 | `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable test key for card checkout UI |
 | `INTERNAL_API_HOST` | Internal host reference |
@@ -72,4 +80,4 @@ Key mock files:
 
 - Protected dashboard routes require an `access_token` cookie set at login.
 - Major tables paginate at 5 rows per page and include at least two pages of demo data.
-- GET responses are cached in-memory for 30 seconds to keep page-to-page navigation fast.
+- After code changes: `yarn build`, then push to `main` only when the build is green.

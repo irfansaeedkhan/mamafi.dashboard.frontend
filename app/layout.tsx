@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://app.mamafi.io/'),
+  metadataBase: new URL('https://mamafi-app.vercel.app/'),
   title: 'mamafi',
   description:
     'An invitation-only club for meme enthusiasts exploring cultural signals, narrative momentum, and digital asset trends in the Meme Coin ecosystem.',
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   authors: [{ name: 'mamafi' }],
   openGraph: {
     title: 'mamafi',
-    siteName: 'app.mamafi',
-    url: 'https://www.mamafi.io/',
+    siteName: 'mamafi',
+    url: 'https://mamafi.vercel.app/',
     description:
       'An invitation-only club for meme enthusiasts exploring cultural signals, narrative momentum, and digital asset trends in the Meme Coin ecosystem.',
     images: [

@@ -17,8 +17,8 @@ const PrivacyPolicy = () => {
       <h1 className="text-gradient py-6 text-3xl font-bold">Privacy Policy</h1>
       <p className={pClass}>
         <span>
-          <span className={boldClass}>Thank you for visiting mamafi.io. </span>
-          By visiting, accessing, or using app.mamafi.io and associated application program
+          <span className={boldClass}>Thank you for visiting mamafi.vercel.app. </span>
+          By visiting, accessing, or using mamafi-app.vercel.app and associated application program
           interface or mobile applications (“mamafi Platform”), you (“User”, “user”, “You” or
           “you”) consent to the Terms of Service (these “Terms”), so please read them carefully.
         </span>
