@@ -1,0 +1,15 @@
+---
+description: Always run production build and push to main after completing code changes
+alwaysApply: true
+---
+
+# Build Then Push
+
+After finishing code changes for this repo:
+
+1. Run `yarn build` and fix any build failures until green.
+2. Commit relevant changes (never secrets).
+3. Push to `origin main` only after the build succeeds.
+4. Do not push if the production build fails.
+
+Use yarn for scripts. Prefer this flow even when the user only says "push" after recent fixes — verify build first, then push.
